@@ -38,6 +38,14 @@ module Xstream
       @producer.start(self)
     end
 
+    def remove(listener)
+      @listeners = @listeners.reject { _1 == listener }
+    end
+
+    def start_with(initial)
+      self.class.new(Producer::StartWith.new(self, initial))
+    end
+
     def map(&block)
       Stream.new(Operator::Map.new(self, block))
     end
